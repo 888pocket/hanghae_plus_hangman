@@ -21,6 +21,7 @@
     "react-dom": "latest"
   },
   "devDependencies": {
+    "@types/next": "^9.0.0",
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import CategoryButton from "../components/main/CategoryButton";
 import StartButton from "../components/main/StartButton";
 import { categories } from "../constants/categories";

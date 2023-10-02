@@ -134,8 +134,10 @@ export default function Test({ initialData }: { initialData: string }) {
       </div>
       <div className="image-section"></div>
       <div className="answer-section flex gap-1 text-3xl">
-        {answerChar.map((answer) => (
-          <span key={answer}>{right.indexOf(answer) > -1 ? answer : "_"}</span>
+        {answerChar.map((answer, index) => (
+          <span key={answer + index}>
+            {right.indexOf(answer) > -1 ? answer : "_"}
+          </span>
         ))}
       </div>
       <div className="alphabet-section grid grid-cols-5 lg:grid-cols-8 gap-2">
