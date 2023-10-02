@@ -1,76 +1,30 @@
 import MetaConfig from "@/components/MetaConfig";
+import { alphabets } from "@/constants/alphabets";
+import { answerList, categoryList } from "@/constants/answerList";
 import { domain } from "@/constants/domain";
+import { imageList } from "@/constants/imageList";
 import { Help } from "@mui/icons-material";
 import { Backdrop, Button, CircularProgress, Tooltip } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import hangman_0 from "/public/0.png";
-import hangman_1 from "/public/1.png";
-import hangman_2 from "/public/2.png";
-import hangman_3 from "/public/3.png";
-import hangman_4 from "/public/4.png";
-import hangman_5 from "/public/5.png";
-import hangman_6 from "/public/6.png";
-import hangman_7 from "/public/7.png";
-import hangman_9 from "/public/9.png";
 
-const imageList = [
-  hangman_0,
-  hangman_1,
-  hangman_2,
-  hangman_3,
-  hangman_4,
-  hangman_5,
-  hangman_6,
-  hangman_7,
-  hangman_9,
-];
-const alphabets = [
-  "A",
-  "B",
-  "C",
-  "D",
-  "E",
-  "F",
-  "G",
-  "H",
-  "I",
-  "J",
-  "K",
-  "L",
-  "M",
-  "N",
-  "O",
-  "P",
-  "Q",
-  "R",
-  "S",
-  "T",
-  "U",
-  "V",
-  "W",
-  "X",
-  "Y",
-  "Z",
-];
+// export async function getServerSideProps(context: any) {
+//   console.log("server side");
+//   const { query } = context;
+//   const category = query.category || "all";
 
-export async function getServerSideProps(context: any) {
-  console.log("server side");
-  const { query } = context;
-  const category = query.category || "all";
+//   const response = await fetch(`${domain}/api/openAi?category=${category}`);
+//   const data = await response.json();
 
-  const response = await fetch(`${domain}/api/openAi?category=${category}`);
-  const data = await response.json();
+//   return {
+//     props: {
+//       initialData: data.result,
+//     },
+//   };
+// }
 
-  return {
-    props: {
-      initialData: data.result,
-    },
-  };
-}
-
-export default function Test({ initialData }: { initialData: string }) {
+export default function Test() {
   const router = useRouter();
   const { mode, category } = router.query;
   const { asPath } = useRouter();
@@ -80,11 +34,43 @@ export default function Test({ initialData }: { initialData: string }) {
   const [right, setRight] = useState([] as string[]);
   const [answerChar, setAnswerChar] = useState([] as string[]);
   const [toggleBackDrop, setToggleBackDrop] = useState(true);
+  const [answer, setAnswer] = useState("color");
 
-  const regex = /[a-zA-Z]+(?![^a-zA-Z]*[a-zA-Z])/g;
-  const matches = initialData.toUpperCase().match(regex);
-  const answer =
-    matches && matches.length > 0 ? matches[matches.length - 1] : "all";
+  useEffect(() => {
+    let answers = [] as string[];
+    console.log(category, mode);
+    switch (category) {
+      case "color":
+        answers = answerList.color;
+        break;
+      case "animal":
+        answers = answerList.animal;
+        break;
+      case "country":
+        answers = answerList.country;
+        break;
+      case "food":
+        answers = answerList.food;
+        break;
+      case "fruit":
+        answers = answerList.fruit;
+        break;
+      case "profession":
+        answers = answerList.profession;
+        break;
+      case "furniture":
+        answers = answerList.furniture;
+        break;
+      case "brand":
+        answers = answerList.brand;
+        break;
+      default:
+        answers = answerList.color;
+    }
+    setAnswer(
+      answers[Math.floor(Math.random() * answers.length)].toUpperCase()
+    );
+  }, [category, mode]);
 
   useEffect(() => {
     const temp: string[] = [];
@@ -93,7 +79,7 @@ export default function Test({ initialData }: { initialData: string }) {
     }
     setAnswerChar(temp);
     setToggleBackDrop(false);
-  }, []);
+  }, [answer]);
 
   const onClick = (alphabet: string) => {
     setSeleted([...selected, alphabet]);
@@ -124,21 +110,7 @@ export default function Test({ initialData }: { initialData: string }) {
       </Backdrop>
       <div className="dashboard-section flex-row lg:flex-col justify-between">
         <div>틀린 횟수 : {wrong.length}</div>
-        <div>
-          디버깅을 위한 정답{" "}
-          <Tooltip title={answer} sx={{ fontSize: "14px" }}>
-            <span
-              style={{
-                top: "2px",
-                marginLeft: "3px",
-                position: "relative",
-                cursor: "pointer",
-              }}
-            >
-              <Help />
-            </span>
-          </Tooltip>
-        </div>
+        <div>디버깅을 위한 정답 : {answer}</div>
       </div>
       <div className="image-section">
         <Image
