@@ -156,13 +156,7 @@ export default function Test() {
                   .length < 1) ||
               selected.indexOf(alphabet) > -1
             }
-            className={
-              selected.indexOf(alphabet) < 0
-                ? ""
-                : wrong.indexOf(alphabet) > -1
-                ? "bg-red-100"
-                : "bg-blue-100"
-            }
+            className={"bg-red-100"}
           >
             {alphabet}
           </Button>
