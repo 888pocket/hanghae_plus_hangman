@@ -9,8 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.11",
+    "@mui/material": "^5.14.11",
     "@vercel/analytics": "^1.0.2",
     "next": "latest",
+    "openai": "^4.11.0",
     "react": "latest",
     "react-dom": "latest"
   },
