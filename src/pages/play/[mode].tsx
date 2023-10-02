@@ -1,3 +1,4 @@
+import { domain } from "@/constants/domain";
 import { Help } from "@mui/icons-material";
 import { Backdrop, Button, CircularProgress, Tooltip } from "@mui/material";
 import { useRouter } from "next/router";
@@ -37,9 +38,7 @@ export async function getServerSideProps(context: any) {
   const { query } = context;
   const category = query.category || "all";
 
-  const response = await fetch(
-    `http://localhost:3000/api/openAi?category=${category}`
-  );
+  const response = await fetch(`${domain}/api/openAi?category=${category}`);
   const data = await response.json();
 
   return {
