@@ -1,9 +1,6 @@
-"use client";
-
-import { getQuery } from "@/util/util";
 import { Help } from "@mui/icons-material";
 import { Backdrop, Button, CircularProgress, Tooltip } from "@mui/material";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 const alphabets = [
@@ -35,20 +32,33 @@ const alphabets = [
   "Z",
 ];
 
-export default function Play() {
+export async function getServerSideProps(context: any) {
+  console.log("server side");
+  const { query } = context;
+  const category = query.category || "all";
+
+  const response = await fetch(
+    `http://localhost:3000/api/openAi?category=${category}`
+  );
+  const data = await response.json();
+
+  return {
+    props: {
+      initialData: data.result,
+    },
+  };
+}
+
+export default function Test({ initialData }: { initialData: string }) {
   const router = useRouter();
-  const mode = getQuery(usePathname());
-  const searchParams = useSearchParams();
-  const category = searchParams.get("category") || "all";
-  console.log(category);
+  const { mode, category } = router.query;
 
   const [selected, setSeleted] = useState([] as string[]);
   const [wrong, setWrong] = useState([] as string[]);
   const [right, setRight] = useState([] as string[]);
   const [answerChar, setAnswerChar] = useState([] as string[]);
   const [toggleBackDrop, setToggleBackDrop] = useState(true);
-
-  const answer = "APPLE";
+  const answer = initialData.toUpperCase();
 
   useEffect(() => {
     const temp: string[] = [];
@@ -60,6 +70,7 @@ export default function Play() {
   }, []);
 
   const onClick = (alphabet: string) => {
+    console.log(answerChar);
     setSeleted([...selected, alphabet]);
     if (answerChar.indexOf(alphabet) > -1) {
       // 정답
@@ -146,7 +157,7 @@ export default function Play() {
         <div>
           <div className="flex gap-4">
             <Button onClick={() => router.push("/")}>처음으로</Button>
-            <Button onClick={() => router.refresh()}>다시하기</Button>
+            <Button onClick={() => router.reload()}>다시하기</Button>
           </div>
         </div>
       ) : (

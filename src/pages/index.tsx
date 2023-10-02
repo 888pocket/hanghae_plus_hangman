@@ -1,17 +1,14 @@
-"use client";
-
-import { categories } from "@/constants/categories";
-import CategoryButton from "@/components/main/CategoryButton";
-import StartButton from "@/components/main/StartButton";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import CategoryButton from "../components/main/CategoryButton";
+import StartButton from "../components/main/StartButton";
+import { categories } from "../constants/categories";
 
 export default function Home() {
   const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState("");
 
   const onClick = (mode: "single" | "multi") => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     router.push(`/play/${mode}?category=${selectedCategory}`);
   };
 
