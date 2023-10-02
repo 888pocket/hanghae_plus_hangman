@@ -6,7 +6,7 @@ import hangman_4 from "/public/4.png";
 import hangman_5 from "/public/5.png";
 import hangman_6 from "/public/6.png";
 import hangman_7 from "/public/7.png";
-import hangman_9 from "/public/9.png";
+import hangman_10 from "/public/10.png";
 
 export const imageList = [
   hangman_0,
@@ -17,5 +17,5 @@ export const imageList = [
   hangman_5,
   hangman_6,
   hangman_7,
-  hangman_9,
+  hangman_10,
 ];

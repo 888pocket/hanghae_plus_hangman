@@ -38,7 +38,6 @@ export default function Test() {
 
   useEffect(() => {
     let answers = [] as string[];
-    console.log(category, mode);
     switch (category) {
       case "color":
         answers = answerList.color;
