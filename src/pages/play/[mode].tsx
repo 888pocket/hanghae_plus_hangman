@@ -59,7 +59,11 @@ export default function Test({ initialData }: { initialData: string }) {
   const [right, setRight] = useState([] as string[]);
   const [answerChar, setAnswerChar] = useState([] as string[]);
   const [toggleBackDrop, setToggleBackDrop] = useState(true);
-  const answer = initialData.toUpperCase();
+
+  const regex = /[a-zA-Z]+(?![^a-zA-Z]*[a-zA-Z])/g;
+  const matches = initialData.toUpperCase().match(regex);
+  const answer =
+    matches && matches.length > 0 ? matches[matches.length - 1] : "all";
 
   useEffect(() => {
     const temp: string[] = [];
