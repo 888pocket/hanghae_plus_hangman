@@ -114,7 +114,7 @@ export default function Play() {
           <span key={answer}>{right.indexOf(answer) > -1 ? answer : "_"}</span>
         ))}
       </div>
-      <div className="alphabet-section">
+      <div className="alphabet-section grid grid-cols-5 lg:grid-cols-8 gap-2">
         {alphabets.map((alphabet, index) => (
           <Button
             key={index}
@@ -146,7 +146,7 @@ export default function Play() {
         <div>
           <div className="flex gap-4">
             <Button onClick={() => router.push("/")}>처음으로</Button>
-            <Button>다시하기</Button>
+            <Button onClick={() => router.refresh()}>다시하기</Button>
           </div>
         </div>
       ) : (
