@@ -1,3 +1,4 @@
+import MetaConfig from "@/components/MetaConfig";
 import { domain } from "@/constants/domain";
 import { Help } from "@mui/icons-material";
 import { Backdrop, Button, CircularProgress, Tooltip } from "@mui/material";
@@ -51,6 +52,7 @@ export async function getServerSideProps(context: any) {
 export default function Test({ initialData }: { initialData: string }) {
   const router = useRouter();
   const { mode, category } = router.query;
+  const { asPath } = useRouter();
 
   const [selected, setSeleted] = useState([] as string[]);
   const [wrong, setWrong] = useState([] as string[]);
@@ -92,8 +94,16 @@ export default function Test({ initialData }: { initialData: string }) {
     }
   }, [selected]);
 
+  const meta = {
+    title: "행맨 | 플레이",
+    image: "/og_800.png",
+    description: `행맨 플레이하기 / 카테고리 : ${category}`,
+    url: domain + asPath,
+  };
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-between p-4 lg:p-12">
+      <MetaConfig {...meta} />
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={toggleBackDrop}
