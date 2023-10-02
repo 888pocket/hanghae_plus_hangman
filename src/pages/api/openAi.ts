@@ -24,7 +24,7 @@ export default async function handler(
       { role: "user", content: category },
     ],
     model: "gpt-3.5-turbo",
-    temperature: 1.38,
+    temperature: 2,
     max_tokens: 10,
   });
   res.status(200).json({ result: chatCompletion.choices[0].message.content });
