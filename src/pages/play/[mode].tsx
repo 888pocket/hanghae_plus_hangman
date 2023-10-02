@@ -2,9 +2,30 @@ import MetaConfig from "@/components/MetaConfig";
 import { domain } from "@/constants/domain";
 import { Help } from "@mui/icons-material";
 import { Backdrop, Button, CircularProgress, Tooltip } from "@mui/material";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import hangman_0 from "/public/0.png";
+import hangman_1 from "/public/1.png";
+import hangman_2 from "/public/2.png";
+import hangman_3 from "/public/3.png";
+import hangman_4 from "/public/4.png";
+import hangman_5 from "/public/5.png";
+import hangman_6 from "/public/6.png";
+import hangman_7 from "/public/7.png";
+import hangman_9 from "/public/9.png";
 
+const imageList = [
+  hangman_0,
+  hangman_1,
+  hangman_2,
+  hangman_3,
+  hangman_4,
+  hangman_5,
+  hangman_6,
+  hangman_7,
+  hangman_9,
+];
 const alphabets = [
   "A",
   "B",
@@ -75,7 +96,6 @@ export default function Test({ initialData }: { initialData: string }) {
   }, []);
 
   const onClick = (alphabet: string) => {
-    console.log(answerChar);
     setSeleted([...selected, alphabet]);
     if (answerChar.indexOf(alphabet) > -1) {
       // 정답
@@ -85,18 +105,6 @@ export default function Test({ initialData }: { initialData: string }) {
       setWrong([...wrong, alphabet]);
     }
   };
-
-  useEffect(() => {
-    if (wrong.length >= 8) {
-      alert("실패!");
-    }
-    if (
-      answerChar.length > 0 &&
-      answerChar.filter((answer) => right.indexOf(answer) < 0).length < 1
-    ) {
-      alert("성공!");
-    }
-  }, [selected]);
 
   const meta = {
     title: "행맨 | 플레이",
@@ -132,13 +140,38 @@ export default function Test({ initialData }: { initialData: string }) {
           </Tooltip>
         </div>
       </div>
-      <div className="image-section"></div>
+      <div className="image-section">
+        <Image
+          src={imageList[wrong.length]}
+          alt={"hangman"}
+          width={600}
+          height={600}
+        />
+      </div>
+      {wrong.length >= 8 && (
+        <div className="result-section text-red-500">실패 했습니다.</div>
+      )}
+      {answerChar.length > 0 &&
+        answerChar.filter((answer) => right.indexOf(answer) < 0).length < 1 && (
+          <div className="result-section text-blue-500">성공 했습니다.</div>
+        )}
       <div className="answer-section flex gap-1 text-3xl">
-        {answerChar.map((answer, index) => (
-          <span key={answer + index}>
-            {right.indexOf(answer) > -1 ? answer : "_"}
-          </span>
-        ))}
+        {wrong.length >= 8
+          ? answerChar.map((answer, index) => (
+              <span
+                key={index + answer}
+                className={
+                  right.indexOf(answer) > -1 ? "" : "text-red-500 underline"
+                }
+              >
+                {answer}
+              </span>
+            ))
+          : answerChar.map((answer, index) => (
+              <span key={answer + index}>
+                {right.indexOf(answer) > -1 || wrong.length >= 8 ? answer : "_"}
+              </span>
+            ))}
       </div>
       <div className="alphabet-section grid grid-cols-5 lg:grid-cols-8 gap-2">
         {alphabets.map((alphabet, index) => (
