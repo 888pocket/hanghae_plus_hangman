@@ -156,7 +156,7 @@ export default function Test() {
                   .length < 1) ||
               selected.indexOf(alphabet) > -1
             }
-            className={"bg-red-100"}
+            style={{ backgroundColor: "red" }}
           >
             {alphabet}
           </Button>
