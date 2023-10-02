@@ -156,7 +156,14 @@ export default function Test() {
                   .length < 1) ||
               selected.indexOf(alphabet) > -1
             }
-            style={{ backgroundColor: "red" }}
+            style={{
+              backgroundColor:
+                selected.indexOf(alphabet) < 0
+                  ? ""
+                  : wrong.indexOf(alphabet) > -1
+                  ? "#FFF5F5"
+                  : "#EBF8FF",
+            }}
           >
             {alphabet}
           </Button>
