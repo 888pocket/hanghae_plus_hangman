@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import CategoryButton from "../components/main/CategoryButton";
 import StartButton from "../components/main/StartButton";
-import { domain } from "@/constants/domain";
+import { domain, env } from "@/constants/domain";
 import MetaConfig from "@/components/MetaConfig";
 import { answerList, categoryList } from "@/constants/answerList";
 import Single from "@/components/play/Single";
@@ -71,6 +71,8 @@ export default function Home() {
     description: `행맨 플레이하러 가기`,
     url: domain,
   };
+
+  console.log(env);
 
   return (
     <main className="flex min-h-screen flex-col items-center p-6 lg:p-14 justify-between lg:justify-start">
