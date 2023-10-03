@@ -3,12 +3,13 @@ import { alphabets } from "@/constants/alphabets";
 import { answerList, categoryList } from "@/constants/answerList";
 import { domain } from "@/constants/domain";
 import { imageList } from "@/constants/imageList";
-import { Favorite, Help } from "@mui/icons-material";
+import { CloseOutlined, Favorite, Help } from "@mui/icons-material";
 import { Backdrop, Button, CircularProgress, Tooltip } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import Timer from "./Timer";
 
 const HP = 8;
 
@@ -26,6 +27,7 @@ export default function Single({
     );
     const jsonData = await response.json();
     setToggleBackDrop(false);
+    setIsRunning(true);
     return jsonData;
   });
 
@@ -34,6 +36,7 @@ export default function Single({
   const [right, setRight] = useState([] as string[]);
   const [answerChar, setAnswerChar] = useState([] as string[]);
   const [toggleBackDrop, setToggleBackDrop] = useState(true);
+  const [isRunning, setIsRunning] = useState(false);
 
   useEffect(() => {
     const temp: string[] = [];
@@ -54,6 +57,18 @@ export default function Single({
     }
   };
 
+  useEffect(() => {
+    if (wrong.length >= 8) {
+      setIsRunning(false);
+    }
+    if (
+      answerChar.length > 0 &&
+      answerChar.filter((answer) => right.indexOf(answer) < 0).length < 1
+    ) {
+      setIsRunning(false);
+    }
+  }, [selected]);
+
   return isLoading ? (
     <Backdrop
       sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -63,18 +78,18 @@ export default function Single({
       <CircularProgress color="inherit" className="ml-4" />
     </Backdrop>
   ) : (
-    <div className="flex min-h-screen flex-col items-center gap-8 p-12 lg:p-14">
+    <div className="flex min-h-screen flex-col items-center gap-8">
       <div
         style={{ border: "1px solid #E2E8F0" }}
         className="dashboard-section flex rounded-2xl flex-row items-center gap-6 lg:flex-col justify-between py-8 px-10"
       >
-        <div className="text-center">
+        <div className="text-center flex flex-col gap-2">
           <div className="text-base font-bold flex items-center justify-center">
             <Favorite className="text-red-400 mr-1" /> 남은 목숨 :{" "}
             {HP - wrong.length}개
           </div>
           <div className="text-base font-bold">
-            디버깅을 위한 정답 : {answer}
+            <Timer isRunning={isRunning} />
           </div>
         </div>
         <div className="image-section">
@@ -126,7 +141,7 @@ export default function Single({
       </div>
       <div className="alphabet-section grid grid-cols-5 lg:grid-cols-11 gap-3">
         {alphabets.map((alphabet, index) => (
-          <Button
+          <button
             key={index}
             onClick={() => onClick(alphabet)}
             disabled={
@@ -136,7 +151,7 @@ export default function Single({
                   .length < 1) ||
               selected.indexOf(alphabet) > -1
             }
-            className="text-lg aspect-square rounded-2xl font-semibold"
+            className="text-lg aspect-square rounded-2xl font-semibold p-2.5 relative"
             style={{
               color:
                 selected.indexOf(alphabet) < 0
@@ -152,8 +167,16 @@ export default function Single({
                   : "#EBF8FF",
             }}
           >
-            <span>{alphabet}</span>
-          </Button>
+            <span className="block w-6 h-6" style={{ lineHeight: "normal" }}>
+              {alphabet}
+            </span>
+            {selected.indexOf(alphabet) > -1 &&
+              wrong.indexOf(alphabet) > -1 && (
+                <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-red-400">
+                  <CloseOutlined fontSize="large" />
+                </span>
+              )}
+          </button>
         ))}
       </div>
       {wrong.length >= HP ||
