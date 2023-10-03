@@ -9,11 +9,12 @@ export default function CategoryButton({
 }) {
   return (
     <button
-      className={
-        selected
-          ? "py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-blue-500"
-          : "py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-green-500 hover:bg-green-700"
-      }
+      style={{
+        minWidth: 160,
+        color: selected ? "#4299E1" : "#4A5568",
+        backgroundColor: selected ? "#EBF8FF" : "#F7FAFC",
+      }}
+      className="w-32 py-2.5 px-4 font-semibold rounded-2xl text-lg"
       onClick={() => {
         onClick(category);
       }}
