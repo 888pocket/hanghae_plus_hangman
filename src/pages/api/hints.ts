@@ -15,7 +15,6 @@ export default async function handler(
 ) {
   const answer = req.query.answer?.toString();
   const category = req.query.category?.toString();
-  console.log(answer, category);
   const chatCompletion = await openai.chat.completions.create({
     messages: [
       {
