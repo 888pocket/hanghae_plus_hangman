@@ -73,7 +73,7 @@ export default function Home() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-12 lg:p-14">
+    <main className="flex min-h-screen flex-col items-center p-6 lg:p-14 justify-between lg:justify-start">
       <MetaConfig {...meta} />
       {phase == 0 && (
         <>
@@ -103,7 +103,7 @@ export default function Home() {
       )}
       {phase == 1 && (
         <>
-          <div className="grid grid-cols-3 gap-2 lg:mb-10">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-2 lg:mb-10">
             {randomWords.map((word) => (
               // eslint-disable-next-line react/jsx-key
               <CategoryButton
@@ -113,7 +113,7 @@ export default function Home() {
               />
             ))}
           </div>
-          <div className="flex gap-4">
+          <div>
             <StartButton
               disabled={selectedWord == ""}
               category={"시작하기"}

@@ -81,7 +81,7 @@ export default function Single({
     <div className="flex min-h-screen flex-col items-center gap-8">
       <div
         style={{ border: "1px solid #E2E8F0" }}
-        className="dashboard-section flex rounded-2xl flex-row items-center gap-6 lg:flex-col justify-between py-8 px-10"
+        className="dashboard-section flex rounded-2xl flex-col items-center gap-6 justify-between py-8 px-10"
       >
         <div className="text-center flex flex-col gap-2">
           <div className="text-base font-bold flex items-center justify-center">
