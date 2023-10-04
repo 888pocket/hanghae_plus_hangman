@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import Timer from "./Timer";
+import RestartButton from "./RestartButton";
 
 const HP = 8;
 
@@ -184,7 +185,7 @@ export default function Single({
         answerChar.filter((answer) => right.indexOf(answer) < 0).length < 1) ? (
         <div>
           <div className="flex gap-4">
-            <Button onClick={() => router.reload()}>다시하기</Button>
+            <RestartButton onClick={() => router.reload()} />
           </div>
         </div>
       ) : (
