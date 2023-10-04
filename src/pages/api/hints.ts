@@ -5,7 +5,7 @@ export const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-export type Data = {
+type Data = {
   result: any;
 };
 
@@ -24,7 +24,8 @@ export default async function handler(
       },
       {
         role: "user",
-        content: `'${answer}'이 답인 문제의 힌트를 8개 줘. 참고로 이 단어의 카테고리는 ${category}.`,
+        content: `Give 8 hints to the question where '${answer}' is the answer. For your information, the category of this word is ${category}
+        `,
       },
     ],
     model: "gpt-3.5-turbo",
