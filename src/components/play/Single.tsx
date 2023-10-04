@@ -29,7 +29,6 @@ export default function Single({
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!isLoading) return;
       try {
         const response = await fetch(
           `${domain}/api/hints?answer=${answer}&category=${category}`
