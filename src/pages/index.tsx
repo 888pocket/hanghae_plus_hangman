@@ -73,60 +73,70 @@ export default function Home() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-6 lg:p-14 justify-between lg:justify-start">
+    <main className="flex min-h-screen flex-col items-center gap-3 p-6 lg:p-14 ">
       <MetaConfig {...meta} />
-      {phase == 0 && (
-        <>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:mb-10">
-            {categoryList.map((category) => (
-              // eslint-disable-next-line react/jsx-key
-              <CategoryButton
-                category={category}
-                selected={category == selectedCategory}
-                onClick={setSelectedCategory}
+      <h1 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
+        행맨
+      </h1>
+      {phase != 2 && (
+        <h2 className="text-lg font-bold leading-7 text-gray-900 sm:truncate sm:text-xl sm:tracking-tight">
+          {phase == 0 ? "카테고리 선택" : "랜덤 단어 중 선택"}
+        </h2>
+      )}
+      <div className="flex flex-col items-center justify-between flex-1 lg:justify-start">
+        {phase == 0 && (
+          <>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:mb-10">
+              {categoryList.map((category) => (
+                // eslint-disable-next-line react/jsx-key
+                <CategoryButton
+                  category={category}
+                  selected={category == selectedCategory}
+                  onClick={setSelectedCategory}
+                />
+              ))}
+            </div>
+            <div className="flex gap-4">
+              <StartButton
+                disabled={selectedCategory == ""}
+                category={"1인 게임 시작"}
+                onClick={() => setPhase(1)}
               />
-            ))}
-          </div>
-          <div className="flex gap-4">
-            <StartButton
-              disabled={selectedCategory == ""}
-              category={"1인 게임 시작"}
-              onClick={() => setPhase(1)}
-            />
-            <StartButton
-              disabled={true}
-              category={"2인 게임 시작"}
-              onClick={() => onClick("multi")}
-            />
-          </div>
-        </>
-      )}
-      {phase == 1 && (
-        <>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-2 lg:mb-10">
-            {randomWords.map((word) => (
-              // eslint-disable-next-line react/jsx-key
-              <CategoryButton
-                category={word}
-                selected={word == selectedWord}
-                onClick={setSelectedWord}
+              <StartButton
+                disabled={true}
+                category={"2인 게임 시작"}
+                onClick={() => onClick("multi")}
               />
-            ))}
-          </div>
-          <div>
-            <StartButton
-              disabled={selectedWord == ""}
-              category={"시작하기"}
-              onClick={() => {
-                setPhase(2);
-              }}
-            />
-          </div>
-        </>
-      )}
-      {phase == 2 && (
-        <Single answer={selectedWord} category={selectedCategory} />
-      )}
+            </div>
+          </>
+        )}
+        {phase == 1 && (
+          <>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-2 lg:mb-10">
+              {randomWords.map((word) => (
+                // eslint-disable-next-line react/jsx-key
+                <CategoryButton
+                  category={word}
+                  selected={word == selectedWord}
+                  onClick={setSelectedWord}
+                />
+              ))}
+            </div>
+            <div>
+              <StartButton
+                disabled={selectedWord == ""}
+                category={"시작하기"}
+                onClick={() => {
+                  setPhase(2);
+                }}
+              />
+            </div>
+          </>
+        )}
+        {phase == 2 && (
+          <Single answer={selectedWord} category={selectedCategory} />
+        )}
+      </div>
     </main>
   );
 }
