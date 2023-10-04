@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import Timer from "./Timer";
 import RestartButton from "./RestartButton";
+import { Data } from "@/pages/api/hints";
 
 const HP = 8;
 
@@ -22,15 +23,6 @@ export default function Single({
   category: string;
 }) {
   const router = useRouter();
-  const { data, isLoading, isError } = useQuery("fetchData", async () => {
-    const response = await fetch(
-      `${domain}/api/hints?answer=${answer}&category=${category}`
-    );
-    const jsonData = await response.json();
-    setToggleBackDrop(false);
-    setIsRunning(true);
-    return jsonData;
-  });
 
   const [selected, setSeleted] = useState([] as string[]);
   const [wrong, setWrong] = useState([] as string[]);
@@ -38,8 +30,26 @@ export default function Single({
   const [answerChar, setAnswerChar] = useState([] as string[]);
   const [toggleBackDrop, setToggleBackDrop] = useState(true);
   const [isRunning, setIsRunning] = useState(false);
+  const [data, setData] = useState({} as Data);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `${domain}/api/hints?answer=${answer}&category=${category}`
+        );
+        const jsonData = await response.json();
+        setData(jsonData);
+        setIsLoading(false);
+        setIsRunning(true);
+      } catch (error) {
+        console.error("데이터를 가져오는 중 에러 발생:", error);
+        setIsLoading(false);
+      }
+    };
+    fetchData();
+
     const temp: string[] = [];
     for (let i = 0; i < answer.length; i++) {
       temp.push(answer.charAt(i));
