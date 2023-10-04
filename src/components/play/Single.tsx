@@ -4,7 +4,6 @@ import { HP } from "@/constants/HP";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import RestartButton from "./RestartButton";
-import { Data } from "@/pages/api/hints";
 import DashBoard from "./DashBoard";
 import Words from "./Words";
 import AlphabetButton from "./AlphabetButton";
@@ -23,8 +22,6 @@ export default function Single({
   const [wrong, setWrong] = useState([] as string[]);
   const [right, setRight] = useState([] as string[]);
   const [answerChar, setAnswerChar] = useState([] as string[]);
-  // const [data, setData] = useState({} as Data);
-  // const [isLoading, setIsLoading] = useState(true);
   const [isWin, setIsWin] = useState(false);
   const [isLose, setIsLose] = useState(false);
 
@@ -37,21 +34,6 @@ export default function Single({
   });
 
   useEffect(() => {
-    // const fetchData = async () => {
-    //   try {
-    //     const response = await fetch(
-    //       `${domain}/api/hints?answer=${answer}&category=${category}`
-    //     );
-    //     const jsonData = await response.json();
-    //     setData(jsonData);
-    //     setIsLoading(false);
-    //   } catch (error) {
-    //     console.error("데이터를 가져오는 중 에러 발생:", error);
-    //     setIsLoading(false);
-    //   }
-    // };
-    // fetchData();
-
     const temp: string[] = [];
     for (let i = 0; i < answer.length; i++) {
       temp.push(answer.charAt(i));
