@@ -117,14 +117,8 @@ export default function Home() {
             <StartButton
               disabled={selectedWord == ""}
               category={"시작하기"}
-              onClick={async () => {
+              onClick={() => {
                 setPhase(2);
-                // const hints = initialData.split("\n");
-                const response = await fetch(
-                  `${domain}/api/hints?answer=${selectedWord}&category=${selectedCategory}`
-                ).then((response) => {
-                  console.log("asdfasdfdf", response);
-                });
               }}
             />
           </div>
