@@ -7,13 +7,11 @@ import { HP } from "@/constants/HP";
 export default function DashBoard({
   wrongNum,
   hints,
-  isLoading,
   isWin,
   isLose,
 }: {
   wrongNum: number;
   hints: string[];
-  isLoading: boolean;
   isWin: boolean;
   isLose: boolean;
 }) {
@@ -39,7 +37,7 @@ export default function DashBoard({
           height={240}
         />
       </div>
-      {!isLoading && wrongNum > 0 && wrongNum < HP && (
+      {hints && wrongNum > 0 && wrongNum < HP && (
         <div className="text-sm lg:text-base text-white font-semibold bg-black px-4 py-2 rounded-lg">
           힌트 {hints[wrongNum - 1]}
         </div>

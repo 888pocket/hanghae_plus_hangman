@@ -8,6 +8,7 @@ import { Data } from "@/pages/api/hints";
 import DashBoard from "./DashBoard";
 import Words from "./Words";
 import AlphabetButton from "./AlphabetButton";
+import { useQuery } from "react-query";
 
 export default function Single({
   answer,
@@ -22,26 +23,34 @@ export default function Single({
   const [wrong, setWrong] = useState([] as string[]);
   const [right, setRight] = useState([] as string[]);
   const [answerChar, setAnswerChar] = useState([] as string[]);
-  const [data, setData] = useState({} as Data);
-  const [isLoading, setIsLoading] = useState(true);
+  // const [data, setData] = useState({} as Data);
+  // const [isLoading, setIsLoading] = useState(true);
   const [isWin, setIsWin] = useState(false);
   const [isLose, setIsLose] = useState(false);
 
+  const { data, isLoading, isError } = useQuery("fetchData", async () => {
+    const response = await fetch(
+      `${domain}/api/hints?answer=${answer}&category=${category}`
+    );
+    const jsonData = await response.json();
+    return jsonData;
+  });
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          `${domain}/api/hints?answer=${answer}&category=${category}`
-        );
-        const jsonData = await response.json();
-        setData(jsonData);
-        setIsLoading(false);
-      } catch (error) {
-        console.error("데이터를 가져오는 중 에러 발생:", error);
-        setIsLoading(false);
-      }
-    };
-    fetchData();
+    // const fetchData = async () => {
+    //   try {
+    //     const response = await fetch(
+    //       `${domain}/api/hints?answer=${answer}&category=${category}`
+    //     );
+    //     const jsonData = await response.json();
+    //     setData(jsonData);
+    //     setIsLoading(false);
+    //   } catch (error) {
+    //     console.error("데이터를 가져오는 중 에러 발생:", error);
+    //     setIsLoading(false);
+    //   }
+    // };
+    // fetchData();
 
     const temp: string[] = [];
     for (let i = 0; i < answer.length; i++) {
@@ -77,7 +86,6 @@ export default function Single({
         hints={!isLoading && data.result.split("\n")}
         isWin={isWin}
         isLose={isLose}
-        isLoading={isLoading}
       />
       <Words
         answerChar={answerChar}
